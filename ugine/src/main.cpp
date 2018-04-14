@@ -31,6 +31,7 @@
 #define FULLSCREEN false
 
 const float ROTATION_SPEED = 64.0f;
+const float MOVING_SPEED = 0.01f;
 //const float ROTATION_SPEED_RADS = glm::radians(ROTATION_SPEED);
 
 std::string readString(const char* filename) {
@@ -288,9 +289,42 @@ int main(int, char**) {
 	//glm::quat rotationQuat = angleAxis(ROTATION_SPEED,
 	//	glm::vec3(0.0f, 1.0f, 0.0f));
 
+	double xPrev = 0;
+	double yPrev = 0;
+
+	double xCurrent;
+	double yCurrent;
+
+	glfwSetCursorPos(window, xPrev, yPrev);
+
 	// Bucle principal
 	float lastTime = static_cast<float>(glfwGetTime());
 	while ( !glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE) ) {
+		
+		// Check key status
+		if (glfwGetKey(window, GLFW_KEY_W) || glfwGetKey(window, GLFW_KEY_UP))
+		{
+			camera->move(vec3(0.0f, 0.0f, -MOVING_SPEED));
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_S) || glfwGetKey(window, GLFW_KEY_DOWN))
+		{
+			camera->move(vec3(0.0f, 0.0f, MOVING_SPEED));
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_A) || glfwGetKey(window, GLFW_KEY_LEFT))
+		{
+			camera->move(vec3(-MOVING_SPEED, 0.0f, 0.0f));
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_D) || glfwGetKey(window, GLFW_KEY_RIGHT))
+		{
+			camera->move(vec3(MOVING_SPEED, 0.0f, 0.0f));
+		}
+
+		//Check mouse position
+		glfwGetCursorPos(window, &xCurrent, &yCurrent);		camera->setRotation(glm::vec3((yPrev - yCurrent) / 2.0, (xPrev - xCurrent) / 2.0, 0.0f));
+
 		// update delta time
 		float newTime = static_cast<float>(glfwGetTime());
 		float deltaTime = newTime - lastTime;

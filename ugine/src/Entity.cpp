@@ -48,5 +48,5 @@ void Entity::setScale(const glm::vec3& scale)
 
 void Entity::move(const glm::vec3& vec)
 {
-	position += rotation * vec;
+	position += rotationQuat * vec;
 }
