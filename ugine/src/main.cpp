@@ -32,6 +32,9 @@
 
 const float ROTATION_SPEED = 64.0f;
 const float MOVING_SPEED = 0.01f;
+
+const int WINDOW_WIDTH = 800;
+const int WINDOW_HEIGHT = 600;
 //const float ROTATION_SPEED_RADS = glm::radians(ROTATION_SPEED);
 
 std::string readString(const char* filename) {
@@ -245,7 +248,7 @@ int main(int, char**) {
 
 	// create window
 	//glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-	GLFWwindow* window = glfwCreateWindow(800, 600, "U-gine", FULLSCREEN ? glfwGetPrimaryMonitor() : nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "U-gine", FULLSCREEN ? glfwGetPrimaryMonitor() : nullptr, nullptr);
 	if (!window) {
 		std::cout << "could not create glfw window" << std::endl;
 		return -1;
@@ -289,13 +292,14 @@ int main(int, char**) {
 	//glm::quat rotationQuat = angleAxis(ROTATION_SPEED,
 	//	glm::vec3(0.0f, 1.0f, 0.0f));
 
-	double xPrev = 0;
-	double yPrev = 0;
+	double xCenter = WINDOW_WIDTH / 2;
+	double yCenter = WINDOW_HEIGHT / 2;
 
 	double xCurrent;
 	double yCurrent;
 
-	glfwSetCursorPos(window, xPrev, yPrev);
+	glfwSetCursorPos(window, xCenter, yCenter);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
 	// Bucle principal
 	float lastTime = static_cast<float>(glfwGetTime());
@@ -323,7 +327,7 @@ int main(int, char**) {
 		}
 
 		//Check mouse position
-		glfwGetCursorPos(window, &xCurrent, &yCurrent);		camera->setRotation(glm::vec3((yPrev - yCurrent) / 2.0, (xPrev - xCurrent) / 2.0, 0.0f));
+		glfwGetCursorPos(window, &xCurrent, &yCurrent);		camera->setRotation(glm::vec3((yCenter - yCurrent) / 2.0, (xCenter - xCurrent) / 2.0, 0.0f));
 
 		// update delta time
 		float newTime = static_cast<float>(glfwGetTime());
@@ -333,6 +337,9 @@ int main(int, char**) {
 		// get updated screen size
 		int screenWidth, screenHeight;
 		glfwGetWindowSize(window, &screenWidth, &screenHeight);
+
+		xCenter = screenWidth / 2;
+		yCenter = screenHeight / 2;
 
 		// report screen size
 		std::stringstream ss;
