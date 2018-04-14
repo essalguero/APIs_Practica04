@@ -70,7 +70,23 @@ void Mesh::draw()
 		// Draw the buffer using the shader
 		buffersVector.at(i)->draw(shader);
 		
+	}
+}
 
-		
+static std::shared_ptr<Mesh> load(
+	const char* filename,
+	const std::shared_ptr<Shader>& shader = nullptr)
+{
+	shared_ptr<Mesh> mesh;
+
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file(filename);
+	if (result) {
+		// Cargado correctamente, podemos analizar su contenido ...
+	}
+	else {
+		// No se ha podido cargar
+		std::cout << result.description() << std::endl;
+		return nullptr;
 	}
 }

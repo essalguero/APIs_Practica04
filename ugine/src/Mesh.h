@@ -5,6 +5,8 @@
 #include "Material.h"
 #include "Buffer.h"
 
+#include "../lib/pugixml-1.9/src/pugixml.hpp"
+
 #include <vector>
 
 
@@ -22,6 +24,11 @@ public:
 
 	const Material& getMaterial(size_t index) const;
 	Material& getMaterial(size_t index);
+
+	static std::shared_ptr<Mesh> load(
+		const char* filename,
+		const std::shared_ptr<Shader>& shader = nullptr);
+
 
 private:
 	std::vector<shared_ptr<Buffer>> buffersVector;

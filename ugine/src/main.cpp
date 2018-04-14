@@ -265,7 +265,7 @@ int main(int, char**) {
 	// Generate a camera and store it in the world
 	shared_ptr<Camera> camera = make_shared<Camera>();
 	camera->setPosition(glm::vec3(0.0f, 1.0f, 3.0f));
-	camera->setClearColor(glm::vec3(0, 0, 0));
+	camera->setClearColor(glm::vec3(135.0f / 255.0f, 206.0f / 255.0f, 235.0f / 255.0f));
 	glm::vec3 cameraRotation = camera->getRotation();
 	cameraRotation.x = -20.0f;
 	camera->setRotation(cameraRotation);
