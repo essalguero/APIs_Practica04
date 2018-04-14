@@ -225,7 +225,7 @@ int createModelsInWorld(World & world)
 
 	std::shared_ptr<Mesh> worldMesh = Mesh::load("../data/asian_town.msh.xml");
 	shared_ptr<Model> worldModel = make_shared<Model>(worldMesh);
-	worldModel->setScale(vec3(4.0f, 4.0f, 4.0f));
+	worldModel->setScale(vec3(10.0f, 10.0f, 10.0f));
 
 	world.addEntity(worldModel);
 
@@ -270,11 +270,11 @@ int main(int, char**) {
 
 	// Generate a camera and store it in the world
 	shared_ptr<Camera> camera = make_shared<Camera>();
-	camera->setPosition(glm::vec3(0.0f, 0.5f, 0.0f));
+	camera->setPosition(glm::vec3(0.0f, 0.1f, 0.0f));
 	camera->setClearColor(glm::vec3(135.0f / 255.0f, 206.0f / 255.0f, 235.0f / 255.0f));
-	glm::vec3 cameraRotation = camera->getRotation();
-	cameraRotation.x = -20.0f;
-	camera->setRotation(cameraRotation);
+	//glm::vec3 cameraRotation = camera->getRotation();
+	//cameraRotation.x = -20.0f;
+	//camera->setRotation(cameraRotation);
 	world.addEntity(camera);
 
 	// Generate the objects in the world
@@ -285,8 +285,8 @@ int main(int, char**) {
 	}
 
 	// create a cuaternion with the  
-	glm::quat rotationQuat = angleAxis(ROTATION_SPEED,
-		glm::vec3(0.0f, 1.0f, 0.0f));
+	//glm::quat rotationQuat = angleAxis(ROTATION_SPEED,
+	//	glm::vec3(0.0f, 1.0f, 0.0f));
 
 	// Bucle principal
 	float lastTime = static_cast<float>(glfwGetTime());
