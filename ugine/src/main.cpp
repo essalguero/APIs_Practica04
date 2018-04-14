@@ -60,7 +60,7 @@ int init() {
 // This method creates all the models and add them to the world
 int createModelsInWorld(World & world)
 {
-	// Crear los Buffers que contiene los datos del cubo. El cubo lo forman dos buffers distintos (se usan una textura distinta en cada Buffer)
+	/*// Crear los Buffers que contiene los datos del cubo. El cubo lo forman dos buffers distintos (se usan una textura distinta en cada Buffer)
 	// 1.- Caras laterales
 	// 2.- Caras superior e inferion
 	vector<Vertex> verticesLaterales;
@@ -220,7 +220,10 @@ int createModelsInWorld(World & world)
 	cube->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
 	//Add the cube to the world object
-	world.addEntity(cube);
+	world.addEntity(cube);*/
+
+
+	std::shared_ptr<Mesh> worldMesh = Mesh::load("../data/asian_town.msh.xml");
 
 
 	return 1;

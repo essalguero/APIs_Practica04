@@ -6,6 +6,7 @@
 #include "Buffer.h"
 
 #include "../lib/pugixml-1.9/src/pugixml.hpp"
+#include "../lib/pugixml-1.9/src/pugiconfig.hpp"
 
 #include <vector>
 
@@ -33,4 +34,6 @@ public:
 private:
 	std::vector<shared_ptr<Buffer>> buffersVector;
 	std::vector<Material> materialsVector;
+
+
 };
