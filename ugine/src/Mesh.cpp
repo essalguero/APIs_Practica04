@@ -103,7 +103,7 @@ std::shared_ptr<Mesh> Mesh::load(
 	const char* filename,
 	const std::shared_ptr<Shader>& shader)
 {
-	shared_ptr<Mesh> mesh;
+	shared_ptr<Mesh> mesh = make_shared<Mesh>();
 
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(filename);
@@ -129,10 +129,10 @@ std::shared_ptr<Mesh> Mesh::load(
 			// Read Indices from node
 			std::string indices = bufferNode.child("indices").text().as_string();
 			std::vector<std::string> indicesStringVector = splitString(indices, ',');
-			std::vector<float> indicesVector = std::vector<float>();
+			std::vector<uint16_t> indicesVector = std::vector<uint16_t>();
 			for (auto indicesIterator = indicesStringVector.begin(); indicesIterator != indicesStringVector.end(); ++indicesIterator)
 			{
-				float numberConverted = numberFromString<float>(*indicesIterator);
+				float numberConverted = numberFromString<uint16_t>(*indicesIterator);
 				indicesVector.push_back(numberConverted);
 			}
 
@@ -160,14 +160,30 @@ std::shared_ptr<Mesh> Mesh::load(
 			//Vertex position(3), texture(2)
 			//Buffer Vertex, indices
 
+			auto textCoordsIterator = texCoordsVector.begin();
+			auto coordsIterator = coordsVector.begin();
+
+			vector<Vertex> vertexVector;
+
+			for (; textCoordsIterator != texCoordsVector.end() && coordsIterator != coordsVector.end(); coordsIterator += 3, textCoordsIterator += 2)
+			{
+				Vertex vertex;
+
+				vertex.position = glm::vec3(*coordsIterator, *(coordsIterator + 1), *(coordsIterator + 2));
+				vertex.texture = glm::vec2(*textCoordsIterator, *(textCoordsIterator + 1));
+
+				vertexVector.push_back(vertex);
+			}
+
 			Material material = Material::Material(texture, nullptr);
 
 
-			//std::shared_ptr<Buffer> buffer = Buffer::create();
+			std::shared_ptr<Buffer> buffer = Buffer::create(vertexVector, indicesVector);
 
-			//mesh->addBuffer(buffer, material);
+			mesh->addBuffer(buffer, material);
 		}
 
+		return mesh;
 	}
 	else {
 		// No se ha podido cargar
