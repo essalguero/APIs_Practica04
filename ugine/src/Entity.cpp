@@ -15,7 +15,7 @@ void Entity::setPosition(const glm::vec3& pos)
 
 const glm::vec3& Entity::getRotation() const
 {
-	return rotation;
+	return glm::degrees(rotation);
 }
 
 const void Entity::setRotation(const glm::vec3& rot) 
