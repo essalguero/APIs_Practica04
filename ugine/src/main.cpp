@@ -288,15 +288,7 @@ int main(int, char**) {
 		return -1;
 	}
 
-	// create a cuaternion with the  
-	//glm::quat rotationQuat = angleAxis(ROTATION_SPEED,
-	//	glm::vec3(0.0f, 1.0f, 0.0f));
 
-	double xCenter = WINDOW_WIDTH / 2;
-	double yCenter = WINDOW_HEIGHT / 2;
-
-	/*double xPrev = WINDOW_WIDTH / 2;
-	double yPrev = WINDOW_HEIGHT / 2;*/
 	double xPrev;
 	double yPrev;
 
@@ -345,22 +337,15 @@ int main(int, char**) {
 		//Check mouse position
 		glfwGetCursorPos(window, &xCurrent, &yCurrent);
 
-		//camera->setRotation(glm::vec3((yCenter - yCurrent) / 2.0, (xCenter - xCurrent) / 2.0, 0.0f));
-		if (xPrev != xCurrent || yPrev != yCurrent)
-		{
-			glm::vec3 newRotation = glm::vec3((yPrev - yCurrent), (xPrev - xCurrent), 0.0f);
-			glm::vec3 currentRot = camera->getRotation();
-			camera->setRotation(currentRot + newRotation);
-			yPrev = yCurrent;
-			xPrev = xCurrent;
-		}
+		glm::vec3 newRotation = glm::vec3((yPrev - yCurrent), (xPrev - xCurrent), 0.0f);
+		glm::vec3 currentRot = camera->getRotation();
+		camera->setRotation(currentRot + newRotation);
+		yPrev = yCurrent;
+		xPrev = xCurrent;
 
 		// get updated screen size
 		int screenWidth, screenHeight;
 		glfwGetWindowSize(window, &screenWidth, &screenHeight);
-
-		xCenter = screenWidth / 2;
-		yCenter = screenHeight / 2;
 
 		// report screen size
 		std::stringstream ss;
