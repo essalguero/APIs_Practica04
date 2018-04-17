@@ -295,11 +295,18 @@ int main(int, char**) {
 	double xCenter = WINDOW_WIDTH / 2;
 	double yCenter = WINDOW_HEIGHT / 2;
 
+	/*double xPrev = WINDOW_WIDTH / 2;
+	double yPrev = WINDOW_HEIGHT / 2;*/
+	double xPrev;
+	double yPrev;
+
+	glfwGetCursorPos(window, &xPrev, &yPrev);
+
 	double xCurrent;
 	double yCurrent;
 
-	glfwSetCursorPos(window, xCenter, yCenter);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	//glfwSetCursorPos(window, xCenter, yCenter);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// Bucle principal
 	float lastTime = static_cast<float>(glfwGetTime());
@@ -338,8 +345,15 @@ int main(int, char**) {
 		//Check mouse position
 		glfwGetCursorPos(window, &xCurrent, &yCurrent);
 
-		camera->setRotation(glm::vec3((yCenter - yCurrent) / 2.0, (xCenter - xCurrent) / 2.0, 0.0f));
-
+		//camera->setRotation(glm::vec3((yCenter - yCurrent) / 2.0, (xCenter - xCurrent) / 2.0, 0.0f));
+		if (xPrev != xCurrent || yPrev != yCurrent)
+		{
+			glm::vec3 newRotation = glm::vec3((yPrev - yCurrent), (xPrev - xCurrent), 0.0f);
+			glm::vec3 currentRot = camera->getRotation();
+			camera->setRotation(currentRot + newRotation);
+			yPrev = yCurrent;
+			xPrev = xCurrent;
+		}
 
 		// get updated screen size
 		int screenWidth, screenHeight;

@@ -80,3 +80,7 @@ ugine/vc15/x64/Debug/ugine\.exe
 ugine/vc15/x64/Debug/ugine\.ilk
 
 ugine/vc15/x64/Debug/ugine\.pdb
+
+ugine/vc15/\.vs/ugine/v15/ipch/AutoPCH/775ca8b686cb755b/ENTITY\.ipch
+
+ugine/vc15/x64/Debug/entity\.obj\.enc
