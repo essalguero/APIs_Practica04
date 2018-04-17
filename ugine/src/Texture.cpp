@@ -11,8 +11,11 @@ std::shared_ptr<Texture> Texture::load(const char* filename)
 	int imageWidth;
 	GLuint textureId;
 	
+	// Flip image as the image in files is stored in top/bottom order
+	// while OpenGL is expecting the file to be in bottom/up order
+	stbi_set_flip_vertically_on_load(true);
+	
 	stbi_uc* stbiImageLoaded = stbi_load(filename, &imageHeight, &imageWidth, nullptr, 4);
-	//stbi_uc* stbiImageLoaded = stbi_load(filename, &imageHeight, &imageWidth, nullptr, 3);
 
 	if (!stbiImageLoaded)
 		return nullptr;
@@ -23,11 +26,12 @@ std::shared_ptr<Texture> Texture::load(const char* filename)
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_LINEAR);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, stbiImageLoaded);
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, stbiImageLoaded);
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 	
@@ -39,10 +43,7 @@ std::shared_ptr<Texture> Texture::load(const char* filename)
 	return texture;
 }
 
-Texture::Texture(GLuint textureId, int height, int width) : textureId(textureId), imageHeight(height), imageWidth(width)
-{
-
-}
+Texture::Texture(GLuint textureId, int height, int width) : textureId(textureId), imageHeight(height), imageWidth(width) {}
 
 uint32_t Texture::getId() const
 {

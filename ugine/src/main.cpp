@@ -30,8 +30,8 @@
 
 #define FULLSCREEN false
 
-const float ROTATION_SPEED = 64.0f;
-const float MOVING_SPEED = 0.01f;
+//const float ROTATION_SPEED = 64.0f;
+const float MOVING_SPEED = 1.0f;
 
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
@@ -305,34 +305,41 @@ int main(int, char**) {
 	float lastTime = static_cast<float>(glfwGetTime());
 	while ( !glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE) ) {
 		
-		// Check key status
-		if (glfwGetKey(window, GLFW_KEY_W) || glfwGetKey(window, GLFW_KEY_UP))
-		{
-			camera->move(vec3(0.0f, 0.0f, -MOVING_SPEED));
-		}
+		
 
-		if (glfwGetKey(window, GLFW_KEY_S) || glfwGetKey(window, GLFW_KEY_DOWN))
-		{
-			camera->move(vec3(0.0f, 0.0f, MOVING_SPEED));
-		}
-
-		if (glfwGetKey(window, GLFW_KEY_A) || glfwGetKey(window, GLFW_KEY_LEFT))
-		{
-			camera->move(vec3(-MOVING_SPEED, 0.0f, 0.0f));
-		}
-
-		if (glfwGetKey(window, GLFW_KEY_D) || glfwGetKey(window, GLFW_KEY_RIGHT))
-		{
-			camera->move(vec3(MOVING_SPEED, 0.0f, 0.0f));
-		}
-
-		//Check mouse position
-		glfwGetCursorPos(window, &xCurrent, &yCurrent);		camera->setRotation(glm::vec3((yCenter - yCurrent) / 2.0, (xCenter - xCurrent) / 2.0, 0.0f));
 
 		// update delta time
 		float newTime = static_cast<float>(glfwGetTime());
 		float deltaTime = newTime - lastTime;
 		lastTime = newTime;
+
+
+		// Check key status
+		if (glfwGetKey(window, GLFW_KEY_W) || glfwGetKey(window, GLFW_KEY_UP))
+		{
+			camera->move(vec3(0.0f, 0.0f, -MOVING_SPEED) * deltaTime);
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_S) || glfwGetKey(window, GLFW_KEY_DOWN))
+		{
+			camera->move(vec3(0.0f, 0.0f, MOVING_SPEED) * deltaTime);
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_A) || glfwGetKey(window, GLFW_KEY_LEFT))
+		{
+			camera->move(vec3(-MOVING_SPEED, 0.0f, 0.0f) * deltaTime);
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_D) || glfwGetKey(window, GLFW_KEY_RIGHT))
+		{
+			camera->move(vec3(MOVING_SPEED, 0.0f, 0.0f) * deltaTime);
+		}
+
+		//Check mouse position
+		glfwGetCursorPos(window, &xCurrent, &yCurrent);
+
+		camera->setRotation(glm::vec3((yCenter - yCurrent) / 2.0, (xCenter - xCurrent) / 2.0, 0.0f));
+
 
 		// get updated screen size
 		int screenWidth, screenHeight;
