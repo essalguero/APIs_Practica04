@@ -132,7 +132,7 @@ std::shared_ptr<Mesh> Mesh::load(
 			std::vector<uint16_t> indicesVector = std::vector<uint16_t>();
 			for (auto indicesIterator = indicesStringVector.begin(); indicesIterator != indicesStringVector.end(); ++indicesIterator)
 			{
-				float numberConverted = numberFromString<uint16_t>(*indicesIterator);
+				uint16_t numberConverted = numberFromString<uint16_t>(*indicesIterator);
 				indicesVector.push_back(numberConverted);
 			}
 
