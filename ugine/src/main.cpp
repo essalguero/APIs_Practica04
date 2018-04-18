@@ -30,7 +30,7 @@
 
 #define FULLSCREEN false
 
-//const float ROTATION_SPEED = 64.0f;
+const float ROTATION_SPEED = 0.02f;
 const float MOVING_SPEED = 1.0f;
 
 const int WINDOW_WIDTH = 800;
@@ -337,9 +337,9 @@ int main(int, char**) {
 		//Check mouse position
 		glfwGetCursorPos(window, &xCurrent, &yCurrent);
 
-		glm::vec3 newRotation = glm::vec3((yPrev - yCurrent), (xPrev - xCurrent), 0.0f);
+		glm::vec3 newRotation = glm::vec3((yPrev - yCurrent), (xPrev - xCurrent), 0.0f) * ROTATION_SPEED;
 		glm::vec3 currentRot = camera->getRotation();
-		camera->setRotation(currentRot + newRotation);
+		camera->setRotation((currentRot + newRotation));
 		yPrev = yCurrent;
 		xPrev = xCurrent;
 

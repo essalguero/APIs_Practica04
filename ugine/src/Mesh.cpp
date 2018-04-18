@@ -7,6 +7,17 @@
 #include <sstream>
 
 
+inline std::string extractPath(std::string filename) {
+	while (filename.find('\\') != std::string::npos)
+		filename.replace(filename.find('\\'), 1, 1, '/');
+	size_t pos = filename.rfind('/');
+	if (pos == std::string::npos) return "";
+	filename = filename.substr(0, pos);
+	if (filename.size() > 0) filename += '/';
+	return filename;
+}
+
+
 std::vector<std::string> splitString(const std::string& str, char delim) {
 	std::vector<std::string> elems;
 	std::stringstream sstream(str);
@@ -18,6 +29,23 @@ std::vector<std::string> splitString(const std::string& str, char delim) {
 	}
 	return elems;
 }
+
+template <typename T>
+vector<T> splitStr(const std::string& str, char delim) {
+	vector<T> elems;
+	stringstream sstream(str);
+	string item;
+	if (str != "") {
+		while (std::getline(sstream, item, delim)) {
+			istringstream istream(item);
+			T elem;
+			istream >> elem;
+			elems.push_back(elem);
+		}
+	}
+	return elems;
+}
+
 
 template <typename T>
 T numberFromString(const std::string& str) {
@@ -128,37 +156,16 @@ std::shared_ptr<Mesh> Mesh::load(
 
 			// Read Indices from node
 			std::string indices = bufferNode.child("indices").text().as_string();
-			std::vector<std::string> indicesStringVector = splitString(indices, ',');
-			std::vector<uint16_t> indicesVector = std::vector<uint16_t>();
-			for (auto indicesIterator = indicesStringVector.begin(); indicesIterator != indicesStringVector.end(); ++indicesIterator)
-			{
-				uint16_t numberConverted = numberFromString<uint16_t>(*indicesIterator);
-				indicesVector.push_back(numberConverted);
-			}
+			std::vector<uint16_t> indicesVector = splitStr<uint16_t>(indices, ',');
 
 			// Read Coordinates from node
 			std::string coords = bufferNode.child("coords").text().as_string();
-			std::vector<std::string> coordsStringVector = splitString(coords, ',');
-			std::vector<float> coordsVector = std::vector<float>();
-			for (auto coordsIterator = coordsStringVector.begin(); coordsIterator != coordsStringVector.end(); ++coordsIterator)
-			{
-				float numberConverted = numberFromString<float>(*coordsIterator);
-				coordsVector.push_back(numberConverted);
-			}
+			std::vector<float> coordsVector = splitStr<float>(coords, ',');
 
 			// Read Texture Coordinates from node
 			std::string texcoords = bufferNode.child("texcoords").text().as_string();
-			std::vector<std::string> texCoordsStringVector = splitString(texcoords, ',');
-			std::vector<float> texCoordsVector = std::vector<float>();
-			for (auto texCoordsIterator = texCoordsStringVector.begin(); texCoordsIterator != texCoordsStringVector.end(); ++texCoordsIterator)
-			{
-				float numberConverted = numberFromString<float>(*texCoordsIterator);
-				texCoordsVector.push_back(numberConverted);
-			}
+			std::vector<float> texCoordsVector = splitStr<float>(texcoords, ',');
 
-
-			//Vertex position(3), texture(2)
-			//Buffer Vertex, indices
 
 			auto textCoordsIterator = texCoordsVector.begin();
 			auto coordsIterator = coordsVector.begin();
