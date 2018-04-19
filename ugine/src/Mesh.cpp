@@ -18,7 +18,7 @@ inline std::string extractPath(std::string filename) {
 }
 
 
-std::vector<std::string> splitString(const std::string& str, char delim) {
+/*std::vector<std::string> splitString(const std::string& str, char delim) {
 	std::vector<std::string> elems;
 	std::stringstream sstream(str);
 	std::string item;
@@ -28,7 +28,7 @@ std::vector<std::string> splitString(const std::string& str, char delim) {
 		}
 	}
 	return elems;
-}
+}*/
 
 template <typename T>
 vector<T> splitStr(const std::string& str, char delim) {
@@ -47,14 +47,13 @@ vector<T> splitStr(const std::string& str, char delim) {
 }
 
 
-template <typename T>
+/*template <typename T>
 T numberFromString(const std::string& str) {
 	T number;
 	std::istringstream stream(str);
 	stream >> number;
 	return number;
-}
-
+}*/
 
 Mesh::Mesh()
 {
@@ -150,7 +149,7 @@ std::shared_ptr<Mesh> Mesh::load(
 
 			std::string textureName = materialNode.child("texture").text().as_string();
 
-			std::string fullTextureName = "../data/" + textureName;
+			std::string fullTextureName = extractPath(filename) + textureName;
 
 			std::shared_ptr<Texture> texture = Texture::load(fullTextureName.c_str());
 
